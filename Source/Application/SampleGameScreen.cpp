@@ -82,7 +82,7 @@ void PlayerController::FixedUpdate(float timeStep)
     jumpCooldown_ -= timeStep;
     if (input->GetKeyDown(KEY_SPACE))
     {
-        if (jumpCooldown_ <= 0.0f)
+        if (jumpCooldown_ <= 0.0f && kinematicController->CanJump())
         {
             kinematicController->Jump();
             jumpCooldown_ = jumpInterval_;
@@ -117,14 +117,14 @@ void SampleGameScreen::RegisterObject(Context* context)
     context->RegisterFactory<SampleGameScreen>();
 }
 
-void SampleGameScreen::InitScene()
+void SampleGameScreen::InitScene(const ea::string& sceneName)
 {
     if (scene_)
         return;
 
     // Load scene.
     scene_ = MakeShared<Scene>(context_);
-    scene_->LoadFile("Scenes/Scene.xml");
+    scene_->LoadFile(sceneName);
 
     // Find camera.
     actorNode_ = scene_->FindChild("Actor");
@@ -153,7 +153,7 @@ void SampleGameScreen::Activate(StringVariantMap& bundle)
 {
     BaseClassName::Activate(bundle);
 
-    InitScene();
+    InitScene(bundle[Param_SceneName].GetString());
 
     SubscribeToEvent(Urho3D::E_KEYDOWN, URHO3D_HANDLER(SampleGameScreen, HandleKeyDown));
 
@@ -237,6 +237,5 @@ void SampleGameScreen::HandleKeyDown(StringHash eventType, VariantMap& eventData
     const auto key = static_cast<Key>(eventData[KeyDown::P_KEY].GetUInt());
     if (key == KEY_ESCAPE)
     {
-        GetApp()->OpenMenu();
     }
 }

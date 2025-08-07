@@ -65,7 +65,7 @@ private:
     /// Handle key down
     void HandleKeyDown(StringHash eventType, VariantMap& eventData);
     /// Init scene.
-    void InitScene();
+    void InitScene(const ea::string& sceneName);
     /// Get current application instance.
     SampleProject* GetApp() const;
 

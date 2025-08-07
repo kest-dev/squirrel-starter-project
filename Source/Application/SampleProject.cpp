@@ -93,6 +93,7 @@ void SampleProject::Start(bool isMain)
         StringVariantMap bundle;
         bundle[Param_ScenePosition] = engine->GetParameter(Param_ScenePosition);
         bundle[Param_SceneRotation] = engine->GetParameter(Param_SceneRotation);
+        bundle[Param_SceneName] = engine->GetParameter(Param_SceneName);
         gameScreen_ = MakeShared<SampleGameScreen>(context_);
         stateManager->EnqueueState(gameScreen_, bundle);
     }
